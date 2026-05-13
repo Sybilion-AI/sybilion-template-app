@@ -1,0 +1,33 @@
+{
+  "name": "sybilion-app-template",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "postinstall": "mkdir -p public && cp -f node_modules/@sybilion/uilib/src/assets/logo.svg public/logo.svg"
+  },
+  "dependencies": {
+    "@auth0/auth0-react": "^2.3.1",
+    "@sybilion/sdk": "^0.0.1",
+    "@sybilion/uilib": "^1.2.12",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-is": "^19.0.0",
+    "react-router-dom": "^6.28.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^5.0.4",
+    "stylus": "^0.64.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.0.0"
+  },
+  "resolutions": {
+    "@types/react": "^19",
+    "@types/react-dom": "^19"
+  }
+}
