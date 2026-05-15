@@ -2382,10 +2382,10 @@
     "@svgr/plugin-jsx" "8.1.0"
     "@svgr/plugin-svgo" "8.1.0"
 
-"@sybilion/sdk@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@sybilion/sdk/-/sdk-0.0.1.tgz#68364c0a40a618dfa5ef50a1bb5f058f3756656b"
-  integrity sha512-yiu4zeMFrQpiLe2By7/L81q0/5OiIR3HABzESMfiZtf7kj1UYTo0wJ2KkmNSZChPTbf+4qWxcqTfrH3W/EHlOQ==
+"@sybilion/platform-sdk@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@sybilion/platform-sdk/-/platform-sdk-0.0.4.tgz#5725cba34d165f60d2753eed195f22971362079d"
+  integrity sha512-qc2GrJMc0w617JSGe5xRWQR0liE8KW2XJFisdf0xheGZ3SSzKbdc1RZ/fvq3EpDBQMBEwKOmJFcha2wTuUNSdw==
 
 "@sybilion/uilib@^1.2.12":
   version "1.2.12"

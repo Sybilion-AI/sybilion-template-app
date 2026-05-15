@@ -1,9 +1,9 @@
-import type { ReactNode } from 'react';
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import type { ReactNode } from "react";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
-import type { MeResponse } from '@sybilion/sdk';
-import { SettingsIcon } from 'lucide-react';
+import type { MeResponse } from "@sybilion/platform-sdk";
+import { SettingsIcon } from "lucide-react";
 
 import {
   AppHeaderHost,
@@ -15,13 +15,13 @@ import {
   SybilionAppHeader,
   useSybilionAuth,
   useTheme,
-} from '@sybilion/uilib';
+} from "@sybilion/uilib";
 
-import { AppSidebar } from './AppSidebar';
-import { sybilionSdk } from './lib/sybilion-sdk';
-import { WORKSPACE_PATHS } from './workspace/workspaceNav';
+import { AppSidebar } from "./AppSidebar";
+import { sybilionSdk } from "./lib/sybilion-sdk";
+import { WORKSPACE_PATHS } from "./workspace/workspaceNav";
 
-const USER_LS_KEY = 'user';
+const USER_LS_KEY = "user";
 
 /** Mirrors sybilion-client `UnifiedUser` fields we persist for header / hydration. */
 type PersistedUser = {
@@ -40,9 +40,9 @@ function readUserFromLs(): PersistedUser | null {
     const u = JSON.parse(raw) as PersistedUser;
     if (
       u &&
-      (typeof u.id === 'number' || typeof u.id === 'string') &&
-      typeof u.email === 'string' &&
-      typeof u.name === 'string'
+      (typeof u.id === "number" || typeof u.id === "string") &&
+      typeof u.email === "string" &&
+      typeof u.name === "string"
     ) {
       return u;
     }
@@ -65,7 +65,7 @@ function persistedToHeader(u: PersistedUser): HeaderUser {
   return {
     name: u.name,
     email: u.email,
-    avatar: u.avatar ?? '',
+    avatar: u.avatar ?? "",
   };
 }
 
@@ -104,8 +104,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
             id: u.id,
             email: u.email,
             name: u.name,
-            avatar:
-              u.avatar != null && u.avatar !== '' ? u.avatar : undefined,
+            avatar: u.avatar != null && u.avatar !== "" ? u.avatar : undefined,
           };
           writeUserToLs(persisted);
           setUser(persistedToHeader(persisted));
@@ -144,7 +143,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
             onLogout={logout}
             menuItems={
               <>
-                <DropdownMenuItem onSelect={() => navigate('/settings')}>
+                <DropdownMenuItem onSelect={() => navigate("/settings")}>
                   <SettingsIcon size={20} />
                   Settings
                 </DropdownMenuItem>

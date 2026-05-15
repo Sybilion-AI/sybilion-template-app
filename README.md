@@ -1,6 +1,6 @@
 # Sybilion standalone app template
 
-Vite + React SPA using **`@sybilion/uilib`** (layout, theme, Auth0 via `SybilionAuthProvider`) and **`@sybilion/sdk`** (Sybilion API). Use this folder as a starting point, then add product routes and data.
+Vite + React SPA using **`@sybilion/uilib`** (layout, theme, Auth0 via `SybilionAuthProvider`) and **`@sybilion/platform-sdk`** (Sybilion API). Use this folder as a starting point, then add product routes and data.
 
 ## Instructions for coding agents
 
