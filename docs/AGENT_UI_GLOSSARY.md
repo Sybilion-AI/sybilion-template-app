@@ -25,7 +25,7 @@ Interactive chart: **historical** and **forecast** lines, plus **quantile bands*
 Default import:
 
 ```ts
-import { ChartAreaInteractive, chartConfig } from '@sybilion/uilib';
+import { ChartAreaInteractive, chartConfig } from "@sybilion/uilib";
 ```
 
 Implementation details live in **`@sybilion/uilib`** (not thin app re-exports). After install, inspect generated types under `node_modules/@sybilion/uilib/dist/esm/types/`. For a working demo mirroring `#uilib/...` internal imports → use `import … from '@sybilion/uilib'` in your app instead, see **`ChartAreaInteractive`** in the Sybilion uilib repo: `src/docs/pages/ChartAreaInteractivePage.tsx` (path inside the `@sybilion/uilib` package source).
@@ -42,7 +42,25 @@ Default import:
 import {
   SidebarDatasetsItemsGrouped,
   groupSidebarDatasets,
-} from '@sybilion/uilib';
+} from "@sybilion/uilib";
 ```
 
-Example usage in uilib sources: **`src/docs/pages/SidebarDatasetsItemsGroupedPage.tsx`**; see also **`src/docs/pages/StandaloneAppLayoutPage/StandaloneAppLayoutPage.tsx`** (mock **`MOCK_DATASETS`**).
+Example usage in uilib sources: **`src/docs/pages/SidebarDatasetsItemsGroupedPage.tsx`**; see also **`src/docs/pages/StandaloneAppLayoutPage/StandaloneAppLayoutPage.tsx`** (mock **`MOCK_DATASETS`**). In the docs app sidebar, **`SidebarDatasetsItemsGrouped`** lives under the **Widgets** section.
+
+### `DriverMap`
+
+**World map** with **driver badges** positioned by region/coordinates, **world-level drivers** in a bottom strip, **fade transitions**, optional **loading overlay** (`MapBackground` + **`LoadingSpinner`**), and **keyboard navigation** (left/right arrows between on-map drivers when one is selected). Host supplies **`drivers`**, **`isLoading`**, **`selectedDriver`**, and **`setSelectedDriver`** (same selection pattern as the main app’s drivers view).
+
+The package also exports **`MapBackground`**, **`LoadingSpinner`**, **`getCategoryIcon`**, **`getDriverImportance`**, **`getHighestImportanceDriver`**, and the **geography helpers** used to resolve positions (`geographicToSVG`, **`getResponsiveCoordinates`**, etc.) and the **`DriverData`** shape.
+
+Default import:
+
+```ts
+import {
+  DriverMap,
+  type DriverData,
+  getHighestImportanceDriver,
+} from "@sybilion/uilib";
+```
+
+Example usage in uilib sources: **`src/docs/pages/DriverMapPage.tsx`** (docs sidebar: **Widgets** → **DriverMap**). After install, inspect generated types under `node_modules/@sybilion/uilib/dist/esm/types/`.
