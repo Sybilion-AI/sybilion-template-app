@@ -40,6 +40,7 @@ Inside the scrolled main column, keep using **`PageHeader`**, **`PageContent`**,
 ### UI glossary
 
 Compact widget/component blurbs (**no prop lists**): **[docs/AGENT_UI_GLOSSARY.md](docs/AGENT_UI_GLOSSARY.md)**.
+Optional deeper notes for some widgets live beside uilib source as **`src/components/widgets/<Name>/AGENT.md`** inside **`@sybilion/uilib`** (linked from the glossary).
 
 ### Where agents may vs must not touch (overview)
 

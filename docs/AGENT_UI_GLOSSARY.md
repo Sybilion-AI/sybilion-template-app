@@ -6,7 +6,7 @@ For template boundaries (what you may edit), see [README.md](../README.md#instru
 
 ## How to extend this file
 
-Keep each component to: what it does, optional default import line, **one pointer** (uilib docs source page and/or `node_modules/@sybilion/uilib/dist/esm/types/…`). Preserve brevity; add new rows as primitives appear.
+Keep each component to: what it does, optional default import line, **one pointer** (uilib docs source page and/or `node_modules/@sybilion/uilib/dist/esm/types/…`). Preserve brevity; add new rows as primitives appear. Widget-level detail may live in `src/components/widgets/<Name>/AGENT.md` inside the `@sybilion/uilib` package.
 
 ---
 
@@ -64,3 +64,39 @@ import {
 ```
 
 Example usage in uilib sources: **`src/docs/pages/DriverMapPage.tsx`** (docs sidebar: **Widgets** → **DriverMap**). After install, inspect generated types under `node_modules/@sybilion/uilib/dist/esm/types/`.
+
+### `PerformanceChart`
+
+High-level **forecast performance** widget built on **`ChartAreaInteractive`**. Two tabs:
+
+- **Per horizon plot** — 24-month window; **`HorizonsSelector`** picks **`horizon_*`** from **`performanceData`**; lines for **model**, **drift**, optional **custom performance** matrix; footer legend toggles series; **`PerformanceTable`** shows MAE/MAPE and optional adjust-parameters / edit-custom-data actions.
+- **Spaghetti plots** — all horizons overlaid (model + drift groups + custom matrix + optional user forecast series).
+
+**Host supplies (not inside widget):** analysis selection, API fetch, **`performanceData`** (**`PerformanceChartPayload`**), **`historicalData`**, optional **`forecastData`**, **`customPerformanceMatrix`**, loading/empty hints (**`runAnalysisHint`**, **`statusHint`**). See **`PerformanceChartPage`** for mock wiring.
+
+Default import:
+
+```ts
+import {
+  PerformanceChart,
+  type PerformanceChartPayload,
+  type PerformanceViewTab,
+} from "@sybilion/uilib";
+```
+
+Example usage in uilib sources: **`src/docs/pages/PerformanceChartPage.tsx`** (docs sidebar: **Widgets** → **PerformanceChart**); deeper notes: **`src/components/widgets/PerformanceChart/AGENT.md`**. After install, inspect generated types under `node_modules/@sybilion/uilib/dist/esm/types/…/PerformanceChart`.
+
+### `DriversComparisonChart`
+
+**Drivers vs target** backtests chart: normalized target + driver series from **`BacktestsComponentPayload`** (**`@sybilion/platform-sdk`**), optional **`datasetHistorical`** overlay, **`ChartAreaInteractive`** with brush time range, **table below chart** — row click toggles series visibility (first N drivers visible by default).
+
+**Host supplies:** fetch **`BacktestsComponentPayload`** per selected analysis, **`datasetHistorical`**, analysis selector UI above the widget (e.g. **`AnalysesSelector`** — see **`sybilion-client`** **`DriversComparisonTab`**), **`seriesInitKey`** when analysis changes, loading/error hints.
+
+Default import:
+
+```ts
+import { DriversComparisonChart } from "@sybilion/uilib";
+import type { BacktestsComponentPayload } from "@sybilion/platform-sdk";
+```
+
+Example usage in uilib sources: **`src/docs/pages/DriversComparisonChartPage.tsx`** (docs sidebar: **Widgets** → **DriversComparisonChart**); deeper notes: **`src/components/widgets/DriversComparisonChart/AGENT.md`**. After install, inspect generated types under `node_modules/@sybilion/uilib/dist/esm/types/…/DriversComparisonChart`.
