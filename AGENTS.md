@@ -87,9 +87,10 @@ Do not use `left`/`right` for 3–4 columns. Use **GridLayout** for auto-wrappin
 
 ## Widget discovery
 
-1. Search `AGENT.md` under `node_modules/@sybilion/uilib/src` (or monorepo `uilib/src`).
-2. Browse exports in `dist/esm/types/index.d.ts`.
-3. uilib docs samples: `uilib/src/docs/pages/`.
+1. Read the glossary index: `node_modules/@sybilion/uilib/dist/agent-glossary/workspace.index.md` (or monorepo `uilib/dist/agent-glossary/workspace.index.md`).
+2. Open the linked `AGENT.md` for the component you need before using it.
+3. Browse exports in `dist/esm/types/index.d.ts`.
+4. uilib docs samples: `uilib/src/docs/pages/`.
 
 ## Styling
 
@@ -99,4 +100,4 @@ Do not use `left`/`right` for 3–4 columns. Use **GridLayout** for auto-wrappin
 
 ## Workspace glossary
 
-Built profile for full workspace pages: `uilib/dist/agent-glossary/workspace.md` (run `yarn build:agent-glossary` in uilib). Content/report profile: `content.md`.
+Built profile for full workspace pages: `uilib/dist/agent-glossary/workspace.index.md` (run `yarn build:agent-glossary` in uilib). Content/report profile index: `content.index.md`; embedded LLM bodies: `content.prompt.md`.
