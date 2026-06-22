@@ -7,12 +7,12 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "postinstall": "mkdir -p public && cp -f node_modules/@sybilion/uilib/src/assets/logo.svg public/logo.svg"
+    "postinstall": "mkdir -p public && cp -f node_modules/@sybilion/uilib/assets/logo.svg public/logo.svg && cp -f node_modules/@sybilion/uilib/src/assets/sybilion_bg.svg public/sybilion_bg.svg"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.3.1",
     "@sybilion/platform-sdk": "^0.0.4",
-    "@sybilion/uilib": "^1.3.64",
+    "@sybilion/uilib": "^1.4.8",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-is": "^19.0.0",
