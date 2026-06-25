@@ -1,0 +1,177 @@
+{
+  "schema_version": 1,
+  "description": "Machine-readable contract for the Sybilion standalone SPA template. Docs and pipeline audit scripts read template-coupled names from here.",
+  "template_dir": ".",
+  "agent_entry_doc": "docs/FRONTEND_AGENTS.md",
+  "prose_sources": {
+    "compose_rules": "docs/FRONTEND_AGENTS.md",
+    "widget_props": "docs/AGENT_UI_GLOSSARY.md",
+    "interaction_behaviour": "docs/frontend-interaction-patterns.md"
+  },
+  "uilib_package": "@sybilion/uilib",
+  "uilib_version": "^1.4.8",
+  "pinned": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "vite": "^6.0.0",
+    "react-router-dom": "^6.28.0",
+    "tailwindcss": "^4.3.0",
+    "@tailwindcss/vite": "^4.3.0",
+    "playwright": "^1.60.0"
+  },
+  "path_alias": {
+    "@": "src"
+  },
+  "layout": {
+    "component": "AppLayout",
+    "forbidden_component": "AppShell",
+    "page_composition": [
+      "PageHeader",
+      "PageContent",
+      "PageContentSection"
+    ]
+  },
+  "primary_view": {
+    "route": "/dashboard",
+    "route_constant": "WORKSPACE_PATHS.dashboard",
+    "file": "src/pages/DashboardPage.tsx",
+    "placeholder_string": "REFERENCE ASSEMBLY RECIPE"
+  },
+  "interaction_primitives": {
+    "P-01": {
+      "name": "AsyncJobCard",
+      "path": "src/components/AsyncJobCard.tsx"
+    },
+    "P-03": {
+      "name": "useUrlState",
+      "path": "src/hooks/useUrlState.ts"
+    },
+    "P-04": {
+      "name": "EmptyState",
+      "path": "src/components/EmptyState.tsx"
+    },
+    "P-06": {
+      "names": [
+        "TableSkeleton",
+        "ChartSkeleton",
+        "CardSkeleton"
+      ],
+      "path": "src/components/Skeleton.tsx"
+    }
+  },
+  "immutable_paths": [
+    "src/AppLayout.tsx",
+    "src/AppProviders.tsx",
+    "src/main.tsx",
+    "src/standalone-global.css",
+    "src/fonts/",
+    "src/auth/",
+    "src/lib/sybilion-sdk.ts",
+    "src/workspace/workspaceNav.ts",
+    "src/components/AsyncJobCard.tsx",
+    "src/components/EmptyState.tsx",
+    "src/components/Skeleton.tsx",
+    "src/hooks/useUrlState.ts",
+    "src/lib/utils.ts",
+    "src/components/ui/",
+    "src/components/charts/",
+    "src/components/demo/",
+    "src/lib/mock-forecast.ts",
+    "src/lib/forecastArtifact.ts",
+    "src/lib/forecastArtifact.test.ts",
+    "src/lib/forecastChartData.ts",
+    "src/lib/forecastChartData.test.ts",
+    "src/lib/chartAxisTicks.ts",
+    "src/lib/chartAxisTicks.test.ts",
+    "components.json",
+    "vite.config.ts",
+    "dev-server.ts",
+    "vitest.config.ts",
+    "tsconfig.json",
+    "index.html",
+    "public/",
+    "src/tools/page.ts",
+    "src/lib/signInRedirect.ts",
+    "src/pages/CallbackPage.tsx",
+    "src/pages/CallbackPage.module.styl",
+    "src/pages/ErrorPage.tsx",
+    "src/pages/ForgotPasswordPage.tsx",
+    "src/pages/SupportPage.tsx",
+    "AGENTS.md",
+    "public/sybilion_bg.svg"
+  ],
+  "editable_paths": {
+    "src/AppSidebar.tsx": "add nav items inside <SidebarMenu> only; may relabel Dashboard; never add a sibling pointing to /",
+    "src/App.tsx": "add demo <Route> entries + their imports only",
+    "package.json": "add demo-specific deps only; never bump the pinned versions",
+    "src/pages/DashboardPage.tsx": "replace body — this stub IS the primary view slot",
+    "src/pages/AccountPage.tsx": "optional — only if the demo specifies what it shows",
+    "src/pages/SettingsPage.tsx": "optional — only if the demo specifies what it shows"
+  },
+  "uilib": {
+    "widgets_glossary": "docs/AGENT_UI_GLOSSARY.md",
+    "comment": "@sybilion/uilib is the PRIMARY UI layer. The shell ships EXACTLY ONE local shadcn file: @/components/ui/alert.",
+    "missing_in_uilib": [
+      "Alert",
+      "AlertTitle",
+      "AlertDescription",
+      "Toast",
+      "Toaster",
+      "RadioGroup",
+      "RadioGroupItem",
+      "Textarea",
+      "Popover",
+      "PopoverTrigger",
+      "PopoverContent",
+      "ScrollArea"
+    ]
+  },
+  "utility_layer": {
+    "library": "shadcn/ui (gap-only)",
+    "components_dir": "src/components/ui",
+    "config": "components.json",
+    "utils": "src/lib/utils.ts",
+    "chart_engine": "recharts",
+    "chart_tokens": [
+      "--chart-1",
+      "--chart-2",
+      "--chart-3",
+      "--chart-4",
+      "--chart-5"
+    ],
+    "kept_components": [
+      "alert"
+    ],
+    "demo_compositions": {
+      "ForecastChart": "src/components/charts/ForecastChart.tsx",
+      "MetricCard": "src/components/demo/MetricCard.tsx",
+      "DataTable": "src/components/demo/DataTable.tsx",
+      "StatusBadge": "src/components/demo/StatusBadge.tsx",
+      "FilterBar": "src/components/demo/FilterBar.tsx",
+      "ForecastQuantileChart": "src/components/demo/ForecastQuantileChart.tsx"
+    },
+    "forecast_chart": {
+      "normalizer": "src/lib/forecastArtifact.ts",
+      "journey_mapper": "src/lib/forecastChartData.ts",
+      "axis_ticks": "src/lib/chartAxisTicks.ts",
+      "quantile_component": "src/components/demo/ForecastQuantileChart.tsx",
+      "journey_component": "src/components/charts/ForecastChart.tsx",
+      "rule": "Quantile-only: ForecastQuantileChart + normalizeForecastArtifact. Journey timeline: ForecastChart fed ONLY by mapJobToForecastChartData."
+    }
+  },
+  "auth": {
+    "mode_env": "VITE_AUTH_MODE",
+    "modes": ["mock", "auth0"],
+    "default_mode": "mock",
+    "provider": "AppAuthProvider",
+    "hook": "useAppAuth",
+    "chat_user_key": "src/auth/chatUserKey.ts",
+    "mock_user_constant": "FAKE_USER",
+    "mock_user_file": "src/auth/providers/mockAuth.tsx",
+    "backend_credential_env": "SYBILION_API_TOKEN"
+  },
+  "visual_validation": {
+    "viewports": ["1280x800", "390x844"],
+    "artifacts_dir": "frontend/.visual"
+  }
+}

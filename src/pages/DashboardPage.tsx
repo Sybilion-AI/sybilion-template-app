@@ -1,4 +1,3 @@
-import { useAuth0 } from '@auth0/auth0-react';
 import {
   ChatSheet,
   PageContent,
@@ -8,14 +7,12 @@ import {
 
 import { MessageSquareIcon } from 'lucide-react';
 
-import { auth0SubToChatUserKey } from '../lib/auth0SubChatUserKey';
+import { userSubToChatKey, useAppAuth } from '../auth';
 import { WORKSPACE_PATHS } from '../workspace/workspaceNav';
 
 export function DashboardPage() {
-  const { user, isAuthenticated } = useAuth0();
-  const chatUserKey = auth0SubToChatUserKey(
-    isAuthenticated ? user?.sub : undefined,
-  );
+  const { isAuthenticated, user } = useAppAuth();
+  const chatUserKey = userSubToChatKey(isAuthenticated ? user?.sub : undefined);
 
   return (
     <>
@@ -36,7 +33,6 @@ export function DashboardPage() {
                 &nbsp;AI Assistant
               </>
             }
-            // presets={dashboardPresets}
           />
         }
       />

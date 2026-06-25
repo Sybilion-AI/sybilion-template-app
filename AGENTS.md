@@ -1,3 +1,8 @@
+---
+description: 
+alwaysApply: false
+---
+
 # Agent guide — Sybilion standalone app (Path 1)
 
 Primary instructions for **coding agents** extending this template. Human-oriented setup stays in [README.md](./README.md).

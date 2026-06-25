@@ -7,8 +7,9 @@ declare module '*.module.styl' {
 
 interface ImportMetaEnv {
   readonly VITE_SYBILION_API_BASE_URL: string;
-  readonly VITE_AUTH0_DOMAIN: string;
-  readonly VITE_AUTH0_CLIENT_ID: string;
+  readonly VITE_AUTH_MODE?: 'mock' | 'auth0';
+  readonly VITE_AUTH0_DOMAIN?: string;
+  readonly VITE_AUTH0_CLIENT_ID?: string;
 }
 
 interface ImportMeta {

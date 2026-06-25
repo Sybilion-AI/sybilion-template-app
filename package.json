@@ -7,24 +7,44 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "postinstall": "mkdir -p public && cp -f node_modules/@sybilion/uilib/assets/logo.svg public/logo.svg && cp -f node_modules/@sybilion/uilib/src/assets/sybilion_bg.svg public/sybilion_bg.svg"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "postinstall": "mkdir -p public && (cp -f node_modules/@sybilion/uilib/assets/logo.svg public/logo.svg 2>/dev/null || cp -f node_modules/@sybilion/uilib/src/components/ui/Logo/logo.svg public/logo.svg) && (cp -f node_modules/@sybilion/uilib/src/assets/sybilion_bg.svg public/sybilion_bg.svg 2>/dev/null || true)"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.3.1",
+    "@hookform/resolvers": "^5.4.0",
     "@sybilion/platform-sdk": "^0.0.4",
-    "@sybilion/uilib": "^1.4.8",
+    "@sybilion/uilib": "^1.4.17",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.17.0",
+    "radix-ui": "^1.4.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hook-form": "^7.77.0",
     "react-is": "^19.0.0",
-    "react-router-dom": "^6.28.0"
+    "react-router-dom": "^6.28.0",
+    "recharts": "^3.8.0",
+    "sonner": "^2.0.7",
+    "tailwind-merge": "^3.6.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.3.0",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^5.0.4",
+    "jsdom": "^26.1.0",
+    "playwright": "^1.60.0",
     "stylus": "^0.64.0",
+    "tailwindcss": "^4.3.0",
     "typescript": "^5.8.3",
-    "vite": "^6.0.0"
+    "vite": "^6.0.0",
+    "vitest": "^3.1.1"
   },
   "resolutions": {
     "@types/react": "^19",

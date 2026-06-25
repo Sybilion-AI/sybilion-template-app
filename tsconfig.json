@@ -12,7 +12,11 @@
     "isolatedModules": true,
     "allowSyntheticDefaultImports": true,
     "useDefineForClassFields": true,
-    "types": ["vite/client"]
+    "types": ["vite/client"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["src", "vite.config.ts", "dev-server.ts"]
 }
