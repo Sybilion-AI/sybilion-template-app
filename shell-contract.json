@@ -168,7 +168,9 @@
     "chat_user_key": "src/auth/chatUserKey.ts",
     "mock_user_constant": "FAKE_USER",
     "mock_user_file": "src/auth/providers/mockAuth.tsx",
-    "backend_credential_env": "SYBILION_API_TOKEN"
+    "backend_credential_env": "SYBILION_API_TOKEN",
+    "agent_service_url_env": "VITE_AGENT_SERVICE_URL",
+    "chat_send": "src/lib/templateChatSend.ts"
   },
   "visual_validation": {
     "viewports": ["1280x800", "390x844"],
