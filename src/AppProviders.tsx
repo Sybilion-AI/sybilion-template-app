@@ -1,14 +1,15 @@
-import type { ReactNode } from 'react';
-import { useCallback } from 'react';
+import type { ReactNode } from "react";
+import { useCallback } from "react";
 
 import {
   ChatProvider,
   ThemeProvider,
   type SendChatMessageFn,
-} from '@sybilion/uilib';
+} from "@sybilion/uilib";
 
-import { AppAuthProvider, useAppAuth, userSubToChatKey } from './auth';
-import { templateSendChatMessage } from './lib/templateChatSend';
+import { AppAuthProvider, useAppAuth, userSubToChatKey } from "./auth";
+import { templateSendChatMessage } from "./lib/templateChatSend";
+import { SYBILION_ACTIVE_COLOR } from "./lib/theme";
 
 function ChatProviderLayer({ children }: { children: ReactNode }) {
   const { user, isAuthenticated } = useAppAuth();
@@ -22,7 +23,10 @@ function ChatProviderLayer({ children }: { children: ReactNode }) {
   );
 
   return (
-    <ChatProvider userSwitchKey={userSwitchKey} sendChatMessage={sendChatMessage}>
+    <ChatProvider
+      userSwitchKey={userSwitchKey}
+      sendChatMessage={sendChatMessage}
+    >
       {children}
     </ChatProvider>
   );
@@ -32,7 +36,9 @@ export function AppProviders({ children }: { children: ReactNode }) {
   return (
     <AppAuthProvider>
       <ChatProviderLayer>
-        <ThemeProvider allowLocalStorage>{children}</ThemeProvider>
+        <ThemeProvider allowLocalStorage activeColor={SYBILION_ACTIVE_COLOR}>
+          {children}
+        </ThemeProvider>
       </ChatProviderLayer>
     </AppAuthProvider>
   );
