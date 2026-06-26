@@ -168,7 +168,7 @@ These `@sybilion/uilib` components compile but reject the props an agent usually
 
 | Component | Real variants / API | Common mis-use |
 |---|---|---|
-| `Badge` | `variant?: 'default' \| 'outline' \| 'red' \| 'yellow' \| 'green'` | Do **not** use `'destructive'` / `'secondary'`. Map `High` risk → `'red'`, `Medium` → `'yellow'`, `Low` → `'green'`. |
+| `Chip` | `variant?: 'neutral' \| 'line' \| 'active' \| 'filled' \| 'accent' \| 'positive' \| 'negative' \| 'yellow'`; optional `dot`, `trend`, `squared` | Map `High` risk → `'negative'`, `Medium` → `'yellow'`, `Low` → `'positive'`. Use `StatusBadge` for semantic status tones. |
 | `CardTitle` | Extends `TextWithDeferTooltipProps` = `Omit<ComponentProps<'div'>, 'style'>` — so it **does** accept string `children` and renders them through a deferred-overflow tooltip. The only quirk: the native `style` prop is omitted. | Pass plain string children (`<CardTitle>Zone exposure</CardTitle>`); set sizing via `className`, not `style`. For a non-tooltip heading, a plain `<h3 className="…">` is also fine. |
 | `SybilionAppHeader` | Accepts `user: { name; email; avatar } \| null`. | Renders an empty avatar slot when `user.avatar === ''` — the template default (`FAKE_USER.picture === ''`). Provide a fallback by overriding `FAKE_USER` (template change). |
 
@@ -182,26 +182,44 @@ uilib is the primary layer; the shell keeps exactly **one** local shadcn file �
 
 ### Forms
 
-There is no shadcn `Form` wrapper. Build forms with `react-hook-form` (`+ @hookform/resolvers` + `zod`, all shipped) driving uilib `Input` + `Label`:
+uilib ships `Form`, `FormField`, `FormItem`, `FormLabel`, `FormControl`, and `FormMessage` — no local shadcn copy. Pass a zod schema to the root `Form`; it applies validation internally. Import `Form*` from `@sybilion/uilib` and `z` from `zod` only — no `useForm` or `zodResolver` in page code.
 
 ```tsx
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Button, Input, Label } from '@sybilion/uilib';
+import {
+  Button,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+} from '@sybilion/uilib';
 
 const schema = z.object({ zone: z.string().min(1, 'Pick a zone.') });
 
 function ForecastForm() {
-  const { register, handleSubmit, formState: { errors } } =
-    useForm<z.infer<typeof schema>>({ resolver: zodResolver(schema), defaultValues: { zone: '' } });
   return (
-    <form onSubmit={handleSubmit((values) => console.log(values))}>
-      <Label htmlFor="zone">Zone</Label>
-      <Input id="zone" {...register('zone')} />
-      {errors.zone ? <p role="alert" className="text-sm text-red-600">{errors.zone.message}</p> : null}
+    <Form
+      schema={schema}
+      defaultValues={{ zone: '' }}
+      onSubmit={(values) => console.log(values)}
+    >
+      <FormField
+        name="zone"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Zone</FormLabel>
+            <FormControl>
+              <Input placeholder="Pick a zone" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
       <Button type="submit">Run forecast</Button>
-    </form>
+    </Form>
   );
 }
 ```

@@ -1,13 +1,13 @@
-import { Badge, type BadgeProps } from '@sybilion/uilib';
+import { Chip, type ChipProps } from '@sybilion/uilib';
 
 export type StatusTone = 'active' | 'pending' | 'error' | 'info' | 'neutral';
 
-const toneMap: Record<StatusTone, { label: string; variant: BadgeProps['variant'] }> = {
-  active: { label: 'Active', variant: 'green' },
+const toneMap: Record<StatusTone, { label: string; variant: ChipProps['variant'] }> = {
+  active: { label: 'Active', variant: 'positive' },
   pending: { label: 'Pending', variant: 'yellow' },
-  error: { label: 'Error', variant: 'red' },
-  info: { label: 'Info', variant: 'default' },
-  neutral: { label: 'Neutral', variant: 'outline' },
+  error: { label: 'Error', variant: 'negative' },
+  info: { label: 'Info', variant: 'filled' },
+  neutral: { label: 'Neutral', variant: 'line' },
 };
 
 export interface StatusBadgeProps {
@@ -16,12 +16,12 @@ export interface StatusBadgeProps {
   className?: string;
 }
 
-/** Semantic status pill on the uilib Badge palette. Pass `label` to override the default per-tone text. */
+/** Semantic status pill on the uilib Chip palette. Pass `label` to override the default per-tone text. */
 export function StatusBadge({ status, label, className }: StatusBadgeProps) {
   const { label: defaultLabel, variant } = toneMap[status];
   return (
-    <Badge variant={variant} className={className}>
+    <Chip variant={variant} squared className={className}>
       {label ?? defaultLabel}
-    </Badge>
+    </Chip>
   );
 }

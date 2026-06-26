@@ -110,7 +110,7 @@
   },
   "uilib": {
     "widgets_glossary": "docs/AGENT_UI_GLOSSARY.md",
-    "comment": "@sybilion/uilib is the PRIMARY UI layer. The shell ships EXACTLY ONE local shadcn file: @/components/ui/alert.",
+    "comment": "@sybilion/uilib is the PRIMARY UI layer: layout (AppLayout/Page*), Card, Table, Chart/ChartContainer, Select, Tabs, Dialog, Drawer, Sheet, Chip, Progress, Skeleton, Switch, Slider, Tooltip, Button, Input, Label, plus the Sybilion widgets — always reach for uilib first. The shell ships EXACTLY ONE local shadcn file: @/components/ui/alert (Alert/AlertDescription — uilib has no inline error banner). All other primitives come from uilib or a direct npm import (e.g. `import { toast } from 'sonner'`). Do NOT copy additional shadcn files into src/components/ui/.",
     "missing_in_uilib": [
       "Alert",
       "AlertTitle",
@@ -142,6 +142,7 @@
     "kept_components": [
       "alert"
     ],
+    "rule": "uilib-first: use @sybilion/uilib for layout, Card, Table, Chart, Select, Tabs, Dialog, Chip, Progress, Skeleton, Button, Input, Label and the Sybilion widgets. The only local shadcn file is alert.tsx — everything else comes from uilib or a direct npm import. recharts stays the chart engine behind uilib's ChartContainer. P-07: use `import { toast } from 'sonner'` directly for success/info notices (no local wrapper); never toast.error. The demo_compositions below are uilib-based wrappers; reuse them, do not fork shadcn equivalents.",
     "demo_compositions": {
       "ForecastChart": "src/components/charts/ForecastChart.tsx",
       "MetricCard": "src/components/demo/MetricCard.tsx",

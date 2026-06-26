@@ -17,7 +17,7 @@ reference** — open them only when this file points you there.
 
 `@sybilion/uilib` is the **primary** UI layer. It is a full design system — layout
 chrome, every common primitive (`Button`, `Card`, `Table`, `Select`, `Tabs`,
-`Dialog`, `Drawer`, `Sheet`, `Badge`, `Progress`, `Skeleton`, `Switch`, `Slider`,
+`Dialog`, `Drawer`, `Sheet`, `Chip`, `Progress`, `Skeleton`, `Switch`, `Slider`,
 `Tooltip`, `Input`, `Label`, `ChartContainer`), **and** the Sybilion-branded data
 widgets. Reach for uilib first. shadcn is reduced to a **single** local file: the
 primitives uilib does not ship. Do not pull a shadcn component that has a uilib
@@ -32,7 +32,7 @@ equivalent — mixing the two is what made past demos look inconsistent.
 | **Utilities** | `@/lib/utils` | `cn()` class merge | `import { cn } from '@/lib/utils'` |
 
 **Layer-split rule (do not cross):**
-- **uilib-first.** If a primitive exists in uilib (§ 3.1), use it. The only local `@/components/ui/` file is `alert.tsx` (§ 3.2). For Popover, RadioGroup, ScrollArea, Textarea — use uilib equivalents or install the npm package and import directly (e.g. `import { toast } from 'sonner'`). Do NOT copy additional files into `src/components/ui/`. There is no shadcn `Button`/`Card`/`Table`/`Select`/`Tabs`/`Dialog`/`Badge`/`Input` — those are uilib.
+- **uilib-first.** If a primitive exists in uilib (§ 3.1), use it. The only local `@/components/ui/` file is `alert.tsx` (§ 3.2). For Popover, RadioGroup, ScrollArea, Textarea — use uilib equivalents or install the npm package and import directly (e.g. `import { toast } from 'sonner'`). Do NOT copy additional files into `src/components/ui/`. There is no shadcn `Button`/`Card`/`Table`/`Select`/`Tabs`/`Dialog`/`Chip`/`Input` — those are uilib.
 - Layout chrome — `AppLayout`, header menus, sidebar, `ChatSheet`, `PageHeader` / `PageContent` / `PageContentSection` — is **always** `@sybilion/uilib`. Never rebuild it.
 - Page-level loading uses the **shell** skeletons (`TableSkeleton` / `ChartSkeleton` / `CardSkeleton`), the audited P-06 primitives — not a bare `Skeleton` at page first paint.
 - Charts: use `@/components/charts/ForecastChart` for forecasts; use the Sybilion `@sybilion/uilib` widgets (`ChartAreaInteractive`, `PerformanceChart`, `DriverMap`, ...) when the demo is built around them; for other custom charts wrap Recharts in uilib's `ChartContainer` (§ 4).
@@ -91,7 +91,7 @@ Common primitives (use these, NOT a shadcn copy):
 | `Select`, `SelectTrigger`, `SelectValue`, `SelectContent`, `SelectItem` | `value` / `onValueChange` |
 | `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent` | `Tabs variant="button"` for toolbar-style tabs |
 | `Dialog`, `Drawer`, `Sheet` (+ their parts) | modals / side panels |
-| `Badge` | `variant?: 'default'\|'outline'\|'red'\|'yellow'\|'green'` — NOT `'destructive'`/`'secondary'` |
+| `Chip` | `variant?: 'neutral'\|'line'\|'active'\|'filled'\|'accent'\|'positive'\|'negative'\|'yellow'`; optional `dot`, `trend`, `squared` |
 | `Input` | `size?: 'sm'\|'md'\|'lg'`, `variant?: 'default'\|'clean'`; supports `type="textarea"` for multiline |
 | `Label`, `LabeledInput` | form labels |
 | `Checkbox`, `Switch`, `Slider`, `Toggle`, `ToggleGroup`, `NumberControl` | inputs / toggles |
@@ -130,7 +130,7 @@ The shell ships exactly **one** local shadcn file — `alert.tsx`. Everything el
 
 ### 3.3 Demo compositions — `@/components/demo/*` and `@/components/charts/*`
 
-Thin, typed wrappers built **on uilib primitives** (Card, Table, Badge, Input/Select, ChartContainer). Reuse them as-is — their public props are unchanged; do not fork shadcn equivalents.
+Thin, typed wrappers built **on uilib primitives** (Card, Table, Chip, Input/Select, ChartContainer). Reuse them as-is — their public props are unchanged; do not fork shadcn equivalents.
 
 | Component | Import | Key props |
 |---|---|---|
