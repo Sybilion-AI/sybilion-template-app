@@ -31,6 +31,17 @@ export function App() {
     [effectiveAuthenticated],
   );
 
+  const auth0Connection = import.meta.env.VITE_AUTH0_CONNECTION as
+    | string
+    | undefined;
+  const signInLoginOptions = useMemo(
+    () =>
+      auth0Connection
+        ? { authorizationParams: { connection: auth0Connection } }
+        : undefined,
+    [auth0Connection],
+  );
+
   useEffect(() => {
     if (!isLoading && effectiveAuthenticated) {
       const savedPath = localStorage.getItem(REDIRECT_PATH_KEY);
@@ -79,6 +90,7 @@ export function App() {
                 forgotPasswordTo="/forgot-password"
                 logoSize={undefined}
                 versionLabel="0.0.1"
+                loginRedirectOptions={signInLoginOptions}
               />
         }
       />

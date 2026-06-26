@@ -152,7 +152,6 @@ export function AppLayout({ children }: { children: ReactNode }) {
               versionLink=""
               versionLabel="0.0.1"
               homeTo={WORKSPACE_PATHS.dashboard}
-              brandText={auth0Mode ? undefined : ''}
             />
           }
         >
