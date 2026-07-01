@@ -262,6 +262,25 @@ try {
 
 ---
 
+### 3.7 Agent chat (ChatSheet + live copilot)
+
+The shell ships header copilot wiring — do not rebuild a custom chat drawer unless `app_plan.md` explicitly requires different UX.
+
+| Piece | Location | Role |
+|---|---|---|
+| `ChatProvider` | `AppProviders.tsx` (immutable) | Supplies `sendChatMessage` + `userSwitchKey` to the tree |
+| `templateSendChatMessage` | `src/lib/templateChatSend.ts` (immutable) | POST `{VITE_AGENT_SERVICE_URL}/chat` with Sybilion JWT Bearer token |
+| `ChatSheet` | `@sybilion/uilib` | Header chat UI — pass in `PageHeader.actions` |
+
+**Modes** (see `shell-contract.json` `auth`):
+
+- **`VITE_AUTH_MODE=mock`** or no `VITE_AGENT_SERVICE_URL` → local echo stub (`Echo (template): …`).
+- **Live copilot** → `VITE_AUTH_MODE=auth0` **and** `VITE_AGENT_SERVICE_URL` set. User must sign in; `templateSendChatMessage` reads the Sybilion JWT from localStorage and POSTs to `{url}/chat`.
+
+When `app_plan.md` declares agent chat, preserve `ChatSheet` in `PageHeader.actions` on views that need copilot (the template stub on `DashboardPage.tsx` shows the pattern). Use the shell's `ChatProvider` + `templateSendChatMessage` — do not wire a separate fetch to the agent service.
+
+---
+
 ## 4. Composition recipes (the intake picks one per view)
 
 ### Forecast Dashboard
@@ -382,4 +401,4 @@ The build audit greps every page file for `User Journey` and at least one `P-NN`
 - Editable/immutable matrix + pinned deps: [`shell-contract.json`](../shell-contract.json), [`uilib-standalone-apps.md`](../../../docs/uilib-standalone-apps.md) § 1.
 - Interaction behaviour P-01..P-08: [`frontend-interaction-patterns.md`](../../../docs/frontend-interaction-patterns.md).
 - uilib widget props: [`AGENT_UI_GLOSSARY.md`](AGENT_UI_GLOSSARY.md).
-- Binding principles (forecast persist/rehydrate, mocked auth, API triangulation): [`CONSTITUTION.md`](../../../CONSTITUTION.md) + [`25-api-contract.mdc`](../../../.cursor/rules/25-api-contract.mdc).
+- Binding principles (forecast persist/rehydrate, SPA auth modes mock|auth0, API triangulation): [`CONSTITUTION.md`](../../../CONSTITUTION.md) + [`25-api-contract.mdc`](../../../.cursor/rules/25-api-contract.mdc).
