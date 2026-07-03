@@ -1,10 +1,3 @@
-import type { ReactNode } from 'react';
-import { useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-
-import type { MeResponse } from '@sybilion/platform-sdk';
-import { SettingsIcon } from 'lucide-react';
-
 import {
   AppHeaderHost,
   AppShell,
@@ -15,11 +8,16 @@ import {
   SybilionAppHeader,
   useTheme,
 } from '@sybilion/uilib';
+import { isAuth0Mode, useAppAuth } from './auth';
+import { useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { AppSidebar } from './AppSidebar';
-import { isAuth0Mode, useAppAuth } from './auth';
-import { sybilionSdk } from './lib/sybilion-sdk';
+import type { MeResponse } from '@sybilion/platform-sdk';
+import type { ReactNode } from 'react';
+import { SettingsIcon } from 'lucide-react';
 import { WORKSPACE_PATHS } from './workspace/workspaceNav';
+import { sybilionSdk } from './lib/sybilion-sdk';
 
 const USER_LS_KEY = 'user';
 
