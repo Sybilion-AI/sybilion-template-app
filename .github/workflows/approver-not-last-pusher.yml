@@ -1,0 +1,107 @@
+name: Approver is not the last pusher
+
+on:
+  workflow_call:
+    inputs:
+      excluded_approvers:
+        description: Comma-separated accounts that cannot supply a human approval.
+        type: string
+        required: false
+        default: nunobarrosmir,sybilion-agents
+
+permissions:
+  actions: read
+  pull-requests: read
+  checks: write
+
+jobs:
+  evaluate:
+    name: Evaluate approver and head pusher
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.base.ref == github.event.repository.default_branch
+    steps:
+      - name: Publish approver-not-last-pusher check
+        uses: actions/github-script@v7
+        env:
+          EXCLUDED_APPROVERS: ${{ inputs.excluded_approvers }}
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const pr = context.payload.pull_request;
+            const headSha = pr.head.sha;
+            const excluded = new Set(process.env.EXCLUDED_APPROVERS
+              .split(',').map(value => value.trim().toLowerCase()).filter(Boolean));
+            const clean = login => (login || '').toLowerCase();
+            const reviews = await github.paginate(github.rest.pulls.listReviews, {
+              owner, repo, pull_number: pr.number, per_page: 100
+            });
+            // GitHub returns reviews in submission order. A later dismissal or
+            // changes-requested review supersedes an earlier approval.
+            const latest = new Map();
+            for (const review of reviews.sort((a, b) => a.id - b.id)) {
+              if (!review.user || review.state === 'PENDING') continue;
+              latest.set(clean(review.user.login), review);
+            }
+            const approvers = [...latest.values()]
+              .filter(review => review.state === 'APPROVED'
+                && review.user.type === 'User'
+                && clean(review.user.login) !== clean(pr.user.login)
+                && !excluded.has(clean(review.user.login)))
+              .map(review => review.user.login).sort((a, b) => a.localeCompare(b));
+
+            // The first pull_request run for this exact head SHA was started by
+            // the account that opened or synchronized that head. This works for
+            // GitHub's Update branch merge commits and agent-authored commits.
+            const runs = await github.paginate(github.rest.actions.listWorkflowRunsForRepo, {
+              owner, repo, head_sha: headSha, event: 'pull_request', per_page: 100
+            });
+            const matching = runs.filter(run =>
+              run.head_sha === headSha && run.actor?.login &&
+              (!run.pull_requests?.length || run.pull_requests.some(item => item.number === pr.number)) &&
+              (!run.head_branch || run.head_branch === pr.head.ref));
+            matching.sort((a, b) =>
+              new Date(a.created_at) - new Date(b.created_at) || a.id - b.id);
+            let pusher = matching[0]?.actor?.login;
+            if (!pusher && context.eventName === 'pull_request' &&
+                ['opened', 'synchronize'].includes(context.payload.action)) {
+              pusher = context.actor;
+            }
+
+            let conclusion;
+            let reason;
+            if (!approvers.length) {
+              conclusion = 'neutral';
+              reason = 'No qualifying human approval is standing; the required-approval ruleset handles this case.';
+            } else if (!pusher) {
+              conclusion = 'failure';
+              reason = 'Could not establish who pushed the current head SHA; manual review is required.';
+            } else if (approvers.some(login => clean(login) !== clean(pusher))) {
+              conclusion = 'success';
+              reason = 'At least one qualifying human approver is different from the head pusher.';
+            } else {
+              conclusion = 'failure';
+              reason = 'The head pusher supplied every qualifying human approval.';
+            }
+            const summary = [
+              `Head SHA: \`${headSha}\``,
+              `Head pusher: ${pusher || 'unknown'}`,
+              `Qualifying approvers: ${approvers.length ? approvers.join(', ') : 'none'}`,
+              `Reason: ${reason}`,
+              `Pusher evidence: ${matching[0]?.html_url || 'no matching pull_request run for this head SHA'}`
+            ].join('\n\n');
+            const check = {
+              owner, repo, name: 'approver-not-last-pusher', head_sha: headSha,
+              status: 'completed', conclusion,
+              external_id: `pr-${pr.number}-head-${headSha}`,
+              output: { title: reason, summary }
+            };
+            const existing = await github.paginate(github.rest.checks.listForRef, {
+              owner, repo, ref: headSha, check_name: check.name, per_page: 100
+            });
+            const previous = existing.find(item => item.external_id === check.external_id);
+            if (previous) {
+              await github.rest.checks.update({ ...check, check_run_id: previous.id });
+            } else {
+              await github.rest.checks.create(check);
+            }
+            core.info(`${conclusion}: ${summary}`);
