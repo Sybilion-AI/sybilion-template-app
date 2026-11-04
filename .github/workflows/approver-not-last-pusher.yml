@@ -7,7 +7,7 @@ on:
         description: Comma-separated accounts that cannot supply a human approval.
         type: string
         required: false
-        default: nunobarrosmir,sybilion-agents
+        default: ''
 
 permissions:
   actions: read

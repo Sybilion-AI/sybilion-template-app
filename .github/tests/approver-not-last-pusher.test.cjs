@@ -26,12 +26,12 @@ async function evaluate({reviews, runs, action = 'submitted', actor = 'reviewer'
     }
   };
   const context = {
-    repo: { owner: 'Sybilion-AI', repo: 'prefect-cluster' },
+    repo: { owner: 'sample-org', repo: 'sample-repo' },
     actor, eventName: action === 'submitted' ? 'pull_request_review' : 'pull_request',
     payload: { action, pull_request: { number: 34, head: { sha: 'head-sha', ref: 'feature' }, user: { login: author } } }
   };
   await vm.runInNewContext(`(async () => { ${script} })()`, {
-    context, github, core: { info() {} }, process: { env: { EXCLUDED_APPROVERS: 'nunobarrosmir,sybilion-agents' } }
+    context, github, core: { info() {} }, process: { env: { EXCLUDED_APPROVERS: 'shared-writer,automation-user' } }
   });
   assert.equal(calls.length, 1);
   return calls[0];
@@ -56,7 +56,7 @@ test('passes when another human approval stands', async () => {
 test('neutral when approvals are absent, dismissed, bots, author or shared accounts', async () => {
   const result = await evaluate({
     reviews: [review('spock0'), review('spock0', 'DISMISSED', 2), review('cursor', 'APPROVED', 3, 'Bot'),
-      review('author', 'APPROVED', 4), review('nunobarrosmir', 'APPROVED', 5)],
+      review('author', 'APPROVED', 4), review('shared-writer', 'APPROVED', 5)],
     runs: [run('spock0')]
   });
   assert.equal(result.conclusion, 'neutral');
